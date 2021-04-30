@@ -36,12 +36,12 @@ jobs:
         run: |
             cd "./${{ matrix.proj }}"
             $branch = @($env:GITHUB_REF -split "/")[-1]
+            $runNumber = $env:GITHUB_RUN_NUMBER
             if($branch -eq "master")
             {
               dotnet build --configuration Release
               dotnet pack --no-build --configuration Release --version-suffix "$runNumber" -o out
             }else {
-              $runNumber = $env:GITHUB_RUN_NUMBER
               dotnet build --configuration Release --version-suffix "$branch$runNumber"
               dotnet pack --no-build --configuration Release --version-suffix "$branch$runNumber" -o out
             }
